@@ -11,8 +11,13 @@ module SmartInit
         instance_variable_set("@#{name}", value)
       end
     end
-  end
 
+    instance_eval do
+      private
+
+      attr_reader *attributes
+    end
+  end
 end
 
 class SmartInit::Base
