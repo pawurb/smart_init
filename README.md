@@ -1,4 +1,4 @@
-#SmartInit
+# SmartInit
 
 Do you find yourself writing a lot of boilerplate code like this?
 
