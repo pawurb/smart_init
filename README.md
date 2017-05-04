@@ -1,4 +1,4 @@
-# SmartInit
+# SmartInit [![Build Status](https://travis-ci.org/pawurb/smart_init.svg)](https://travis-ci.org/pawurb/smart_init)
 
 Do you find yourself writing a lot of boilerplate code like this?
 
