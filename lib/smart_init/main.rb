@@ -1,5 +1,20 @@
 module SmartInit
-  class Base
+  def initialize_with *attributes
+    define_method :initialize do |*parameters|
+      if attributes.count != parameters.count
+        raise ArgumentError, "wrong number of arguments (given #{parameters.count}, expected #{attributes.count})"
+      end
 
+      attributes.zip(parameters).each do |pair|
+        name = pair[0]
+        value = pair[1]
+        instance_variable_set("@#{name}", value)
+      end
+    end
   end
+
+end
+
+class SmartInit::Base
+  extend SmartInit
 end
