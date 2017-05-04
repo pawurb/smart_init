@@ -16,4 +16,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.license       = "MIT"
   gem.add_development_dependency "rake"
+  gem.add_development_dependency "test-unit"
 end
