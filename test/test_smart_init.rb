@@ -4,6 +4,11 @@ require 'smart_init'
 class TestClass
   extend SmartInit
   initialize_with :attribute_1, :attribute_2
+  is_callable
+
+  def call
+    [attribute_1, attribute_2]
+  end
 end
 
 class SmartInitTest < Test::Unit::TestCase
@@ -32,6 +37,10 @@ class SmartInitTest < Test::Unit::TestCase
     end
 
     assert_equal test_object.send(:attribute_1), "attr_1_value"
+  end
+
+  def test_is_callable
+    assert_equal TestClass.call("a", "b"), ["a", "b"]
   end
 
   private

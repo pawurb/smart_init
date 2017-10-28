@@ -45,3 +45,23 @@ Now you can just:
 object = ApiClient.new(Faraday.new, 'secret_token')
 # <ApiClient:0x007fa16684ec20 @network_provider=Faraday<...>, @api_token="secret_token">
 ```
+
+You can also use `is_callable` method:
+
+
+```ruby
+class Calculator < SmartInit::Base
+  initialize_with :data
+  is_callable
+
+  def call
+    ...
+    result
+  end
+end
+
+Calculator.call(data) => data
+```
+
+It provides a unified api for stateless service objects, accepting values in initializer and exposing one public method `call` which accepts no arguments.
+
