@@ -11,6 +11,15 @@ class TestClass
   end
 end
 
+class TestNoInit
+  extend SmartInit
+  is_callable
+
+  def call
+    'result'
+  end
+end
+
 class SmartInitTest < Test::Unit::TestCase
   def test_number_of_attributes
     assert_nothing_raised do
@@ -41,6 +50,10 @@ class SmartInitTest < Test::Unit::TestCase
 
   def test_is_callable
     assert_equal TestClass.call("a", "b"), ["a", "b"]
+  end
+
+  def test_is_callable_no_initializers
+    assert_equal TestNoInit.call, 'result'
   end
 
   private

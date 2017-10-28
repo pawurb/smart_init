@@ -1,6 +1,4 @@
 module SmartInit
-  @@_init_attributes = []
-
   def is_callable
     define_singleton_method :call do |*parameters|
       new(*parameters).call
@@ -8,7 +6,6 @@ module SmartInit
   end
 
   def initialize_with *attributes
-    @_init_attributes = attributes
     define_method :initialize do |*parameters|
       if attributes.count != parameters.count
         raise ArgumentError, "wrong number of arguments (given #{parameters.count}, expected #{attributes.count})"
