@@ -60,7 +60,7 @@ class Calculator < SmartInit::Base
   end
 end
 
-Calculator.call(data) => data
+Calculator.call(data) => result
 ```
 
 It provides a unified api for stateless service objects, accepting values in initializer and exposing one public method `call` which accepts no arguments.
