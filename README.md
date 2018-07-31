@@ -63,5 +63,5 @@ end
 Calculator.call(data) => result
 ```
 
-It provides a unified api for stateless service objects, accepting values in initializer and exposing one public method `call` which accepts no arguments.
+It provides a unified api for stateless service objects, accepting values in initializer and exposing one public class method `call` which instantiates new objects and accepts arguments passed to initializer.
 
