@@ -42,7 +42,7 @@ end
 Now you can just:
 
 ```ruby
-object = ApiClient.new(Faraday.new, 'secret_token')
+object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 # <ApiClient:0x007fa16684ec20 @network_provider=Faraday<...>, @api_token="secret_token">
 ```
 
@@ -60,7 +60,7 @@ class Calculator < SmartInit::Base
   end
 end
 
-Calculator.call(data) => result
+Calculator.call(data: data) => result
 ```
 
 It provides a unified api for stateless service objects, accepting values in initializer and exposing one public class method `call` which instantiates new objects and accepts arguments passed to initializer.

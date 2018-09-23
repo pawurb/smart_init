@@ -69,7 +69,7 @@ class SmartInitTest < Test::Unit::TestCase
 
   def test_default_arguments
     assert_equal TestDefaultArguments.call(attribute_1: "a"), ["a", "default_value_2", "default_value_3"]
-    # assert_equal TestDefaultArguments.call(attribute_1: "a", attribute_2: "b"), ["a", "b", "default_value_3"]
+    assert_equal TestDefaultArguments.call(attribute_1: "a", attribute_2: "b"), ["a", "b", "default_value_3"]
   end
 
   private
