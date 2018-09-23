@@ -3,3 +3,5 @@ Gemfile.lock
 pkg/
 *.gem
 coverage/
+.byebug_history
+
