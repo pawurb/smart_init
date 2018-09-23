@@ -46,6 +46,22 @@ object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 # <ApiClient:0x007fa16684ec20 @network_provider=Faraday<...>, @api_token="secret_token">
 ```
 
+You can use default argument values:
+
+```ruby
+class Adder < SmartInit::Base
+  initialize_with :a, b: 2
+  is_callable
+
+  def call
+    a + b
+  end
+end
+
+Adder.call(a: 1) => 3
+Adder.call(a: 1, b: 1) => 2
+```
+
 You can also use `is_callable` method:
 
 
