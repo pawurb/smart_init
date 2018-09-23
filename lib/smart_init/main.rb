@@ -1,4 +1,6 @@
 module SmartInit
+  @@_attributes = []
+
   def is_callable
     define_singleton_method :call do |*parameters|
       new(*parameters).call
@@ -6,23 +8,21 @@ module SmartInit
   end
 
   def initialize_with *attributes
-    define_method :initialize do |*parameters|
-      if attributes.count != parameters.count
-        raise ArgumentError, "wrong number of arguments (given #{parameters.count}, expected #{attributes.count})"
+    class_variable_set(:@@_attributes, attributes)
+    @@_attributes = attributes
+    class_eval <<-METHOD
+      def initialize(#{@@_attributes.map { |a| "#{a}:" }.join(', ')})
+
+        if @@_attributes
+          @@_attributes.each_with_index do |attribute, index|
+            instance_variable_set(
+              "@"+ attribute.to_s,
+              eval(attribute.to_s)
+            )
+          end
+        end
       end
-
-      attributes.zip(parameters).each do |pair|
-        name = pair[0]
-        value = pair[1]
-        instance_variable_set("@#{name}", value)
-      end
-    end
-
-    instance_eval do
-      private
-
-      attr_reader *attributes
-    end
+    METHOD
   end
 end
 

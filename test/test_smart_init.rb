@@ -1,5 +1,6 @@
 require "test/unit"
-require 'smart_init'
+require "byebug"
+require_relative '../lib/smart_init/main'
 
 class TestClass
   extend SmartInit
@@ -24,14 +25,14 @@ class SmartInitTest < Test::Unit::TestCase
   def test_number_of_attributes
     assert_nothing_raised do
       TestClass.new(
-        "attr_1_value",
-        "attr_2_value"
+        attribute_1: "attr_1_value",
+        attribute_2: "attr_2_value"
       )
     end
 
     assert_raise ArgumentError do
       TestClass.new(
-        "attr_1_value"
+        attribute_1: "attr_1_value"
       )
     end
   end
@@ -49,7 +50,7 @@ class SmartInitTest < Test::Unit::TestCase
   end
 
   def test_is_callable
-    assert_equal TestClass.call("a", "b"), ["a", "b"]
+    assert_equal TestClass.call(attribute_1: "a", attribute_2: "b"), ["a", "b"]
   end
 
   def test_is_callable_no_initializers
@@ -59,7 +60,7 @@ class SmartInitTest < Test::Unit::TestCase
   private
 
   def test_object
-    @_test_object ||= TestClass.new("attr_1_value", "attr_2_value")
+    @_test_object ||= TestClass.new(attribute_1: "attr_1_value", attribute_2: "attr_2_value")
   end
 end
 
