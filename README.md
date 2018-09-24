@@ -72,7 +72,7 @@ Calculator.call(data: data) => result
 You can use keyword based, default argument values:
 
 ```ruby
-class Added < SmartInit::Base
+class Adder < SmartInit::Base
   initialize_with_keywords :num_a, num_b: 2
   is_callable
 
