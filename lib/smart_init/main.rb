@@ -46,7 +46,7 @@ module SmartInit
           )
         end
 
-        @@_default_value_attrs&.keys.each do |attribute|
+        @@_default_value_attrs.keys.each do |attribute|
           instance_variable_set(
             "@"+ attribute.to_s,
             eval(attribute.to_s)
