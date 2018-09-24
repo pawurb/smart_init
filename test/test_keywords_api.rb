@@ -21,6 +21,16 @@ class TestKeywordsDefaults
   end
 end
 
+class TestKeywordsIntegerDefaults
+  extend SmartInit
+  initialize_with_keywords :attribute_1, attribute_2: 2
+  is_callable
+
+  def call
+    [attribute_1, attribute_2]
+  end
+end
+
 class KeywordsApiTest < Test::Unit::TestCase
   def test_keywords
     assert_equal TestKeywords.call(attribute_1: "a", attribute_2: "b"), ["a", "b"]
@@ -35,6 +45,10 @@ class KeywordsApiTest < Test::Unit::TestCase
   def test_keywords_defaults
     assert_equal TestKeywordsDefaults.call(attribute_1: "a"), ["a", "default_value_2", "default_value_3"]
     assert_equal TestKeywordsDefaults.call(attribute_1: "a", attribute_2: "b"), ["a", "b", "default_value_3"]
+  end
+
+  def test_integer_defaults
+    assert_equal TestKeywordsIntegerDefaults.call(attribute_1: 1), [1, 2]
   end
 
   private

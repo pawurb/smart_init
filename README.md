@@ -29,7 +29,7 @@ You can use it either by extending a module:
 class ApiClient
   extend SmartInit
 
-  initialize_with_keywords :network_provider, api_token: "default_token"
+  initialize_with_keywords :network_provider, :api_token
 end
 
 ```
@@ -38,7 +38,7 @@ or subclassing:
 
 ```ruby
 class ApiClient < SmartInit::Base
-  initialize_with_keywords :network_provider, api_token: "default_token"
+  initialize_with_keywords :network_provider, :api_token
 end
 
 ```
@@ -67,13 +67,13 @@ end
 Calculator.call(data: data) => result
 ```
 
-### Default arguments
+### Default arguments (Beta)
 
 You can use keyword based, default argument values:
 
 ```ruby
 class Adder < SmartInit::Base
-  initialize_with_keywords :num_a, num_b: 2
+  initialize_with_keywords :num_a, num_b: '2'
   is_callable
 
   def call
@@ -81,10 +81,14 @@ class Adder < SmartInit::Base
   end
 end
 
-Adder.call(num_a: 2) => 4
-Adder.call(num_a: 2, num_b: 3) => 5
+Adder.call(num_a: '2') => '22'
+Adder.call(num_a: '2', num_b: '3') => '23'
 
 ```
+
+**Warning** currently only string values work as default arguments. There's a failing spec describing this case.
+
+There *might* be danger of code injection because it uses `eval` and string based `class_eval` behind the scenes. I added it as a proof of concept. PRs on how it could improved are welcome.
 
 ## Legacy API
 
