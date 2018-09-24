@@ -6,6 +6,26 @@ module SmartInit
   end
 
   def initialize_with *attributes
+    define_method :initialize do |*parameters|
+      if attributes.count != parameters.count
+        raise ArgumentError, "wrong number of arguments (given #{parameters.count}, expected #{attributes.count})"
+      end
+
+      attributes.zip(parameters).each do |pair|
+        name = pair[0]
+        value = pair[1]
+        instance_variable_set("@#{name}", value)
+      end
+    end
+
+    instance_eval do
+      private
+
+      attr_reader *attributes
+    end
+  end
+
+  def initialize_with_keywords *attributes
     class_variable_set(:@@_attributes, attributes)
     @@_attributes = attributes
 
