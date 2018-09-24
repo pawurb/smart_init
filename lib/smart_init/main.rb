@@ -38,7 +38,7 @@ module SmartInit
     @@_default_value_attrs = default_value_attrs
 
     class_eval <<-METHOD
-      def initialize(#{(@@_required_attrs + @@_default_value_attrs.keys) .map { |a| @@_default_value_attrs[a] ? "#{a}: @@_default_value_attrs[#{a}]" : "#{a}:" }.join(', ')})
+      def initialize(#{(@@_required_attrs + @@_default_value_attrs.keys).map { |a| @@_default_value_attrs[a] ? "#{a}: @@_default_value_attrs[#{a}]" : "#{a}:" }.join(', ')})
         @@_required_attrs&.each do |attribute|
           instance_variable_set(
             "@"+ attribute.to_s,

@@ -86,7 +86,7 @@ Adder.call(num_a: 2, num_b: 3) => 5
 
 ```
 
-## Standard API
+## Legacy API
 
 Alternatively you can use standard API without keyword arguments:
 
