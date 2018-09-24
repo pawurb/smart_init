@@ -29,7 +29,7 @@ You can use it either by extending a module:
 class ApiClient
   extend SmartInit
 
-  initialize_with :network_provider, :api_token
+  initialize_with :network_provider, api_token: "default_token"
 end
 
 ```
@@ -38,7 +38,7 @@ or subclassing:
 
 ```ruby
 class ApiClient < SmartInit::Base
-  initialize_with :network_provider, :api_token
+  initialize_with :network_provider, api_token: "default_token"
 end
 
 ```
