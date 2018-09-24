@@ -39,7 +39,7 @@ module SmartInit
 
     class_eval <<-METHOD
       def initialize(#{(@@_required_attrs + @@_default_value_attrs.keys).compact.map { |a| @@_default_value_attrs[a] ? "#{a.to_s}: '#{@@_default_value_attrs.fetch(a)}'" : "#{a}:" }.join(', ')})
-        @@_required_attrs&.each do |attribute|
+        @@_required_attrs.each do |attribute|
           instance_variable_set(
             "@"+ attribute.to_s,
             eval(attribute.to_s)
