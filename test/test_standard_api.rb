@@ -1,5 +1,4 @@
 require "test/unit"
-require "byebug"
 require_relative '../lib/smart_init/main'
 
 class TestClass

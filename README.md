@@ -104,6 +104,5 @@ end
 Calculator.call(data) => result
 ```
 
-This API does not support default argument values though.
-
+It does not support default argument values though.
 
