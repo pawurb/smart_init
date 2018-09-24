@@ -58,7 +58,7 @@ module SmartInit
     instance_eval do
       private
 
-      attr_reader *(required_attrs + default_value_attrs&.keys)
+      attr_reader *(required_attrs + default_value_attrs.keys)
     end
   end
 end
