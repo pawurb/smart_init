@@ -29,7 +29,7 @@ You can use it either by extending a module:
 class ApiClient
   extend SmartInit
 
-  initialize_with :network_provider, api_token: "default_token"
+  initialize_with_keywords :network_provider, api_token: "default_token"
 end
 
 ```
@@ -38,7 +38,7 @@ or subclassing:
 
 ```ruby
 class ApiClient < SmartInit::Base
-  initialize_with :network_provider, api_token: "default_token"
+  initialize_with_keywords :network_provider, api_token: "default_token"
 end
 
 ```
@@ -55,7 +55,7 @@ You can also use `is_callable` method:
 
 ```ruby
 class Calculator < SmartInit::Base
-  initialize_with :data
+  initialize_with_keywords :data
   is_callable
 
   def call
@@ -73,7 +73,7 @@ You can use keyword based, default argument values:
 
 ```ruby
 class Added < SmartInit::Base
-  initialize_with :num_a, num_b: 2
+  initialize_with_keywords :num_a, num_b: 2
   is_callable
 
   def call
