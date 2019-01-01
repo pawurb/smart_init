@@ -10,8 +10,10 @@ module SmartInit
     default_value_attrs = attributes.select { |attr| attr.is_a?(Hash) }.first || {}
 
     define_method :initialize do |*parameters|
-      if required_attrs.count > parameters.first.count
-        raise ArgumentError, "wrong number of arguments (given #{parameters.count}, expected at least #{required_attrs.count})"
+      required_attrs.each do |required_attr|
+        unless parameters.first.has_key?(required_attr)
+          raise ArgumentError, "missing required attribute #{required_attr}"
+        end
       end
 
       (required_attrs + default_value_attrs.keys).each do |attribute|
@@ -23,7 +25,7 @@ module SmartInit
     instance_eval do
       private
 
-      attr_reader *(required_attrs + default_value_attrs.keys)
+      attr_reader(*(required_attrs + default_value_attrs.keys).compact)
     end
   end
 
@@ -43,10 +45,9 @@ module SmartInit
     instance_eval do
       private
 
-      attr_reader *attributes
+      attr_reader(*attributes)
     end
   end
-
 end
 
 class SmartInit::Base

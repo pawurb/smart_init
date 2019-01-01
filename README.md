@@ -50,6 +50,8 @@ object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 # <ApiClient:0x007fa16684ec20 @network_provider=Faraday<...>, @api_token="secret_token">
 ```
 
+
+
 You can also use `is_callable` method:
 
 ```ruby
