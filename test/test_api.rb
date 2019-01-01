@@ -56,4 +56,10 @@ class HashApiTest < Test::Unit::TestCase
       TestService.call(attribute_1: "a", invalid_attribute: "b")
     end
   end
+
+  def test_invalid_input
+    assert_raise ArgumentError do
+      TestService.call("invalid_input here")
+    end
+  end
 end

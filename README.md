@@ -50,7 +50,13 @@ object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 # <ApiClient:0x007fa16684ec20 @network_provider=Faraday<...>, @api_token="secret_token">
 ```
 
+If you omit a required attribute an `ArgumentError` will be thrown:
 
+```ruby
+object = ApiClient.new(network_provider: Faraday.new)
+
+# ArgumentError (missing required attribute api_token)
+```
 
 You can also use `is_callable` method:
 
