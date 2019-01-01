@@ -5,7 +5,7 @@ module SmartInit
     end
   end
 
-  def initialize_with *attributes
+  def initialize_with_hash *attributes
     required_attrs = attributes.select { |attr| attr.is_a?(Symbol) }
     default_value_attrs = attributes.select { |attr| attr.is_a?(Hash) }.first || {}
 
@@ -33,7 +33,9 @@ module SmartInit
     end
   end
 
-  def initialize_with_v1 *attributes
+  alias initialize_with initialize_with_hash
+
+  def initialize_with_args *attributes
     define_method :initialize do |*parameters|
       if attributes.count != parameters.count
         raise ArgumentError, "wrong number of arguments (given #{parameters.count}, expected #{attributes.count})"

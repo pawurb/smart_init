@@ -93,13 +93,13 @@ Adder.call(num_a: 2, num_b: 3) => 5
 
 ```
 
-## Legacy API
+## Legacy Arguments API
 
 Alternatively you can a legacy API without hash arguments and default values:
 
 ```ruby
 class Calculator < SmartInit::Base
-  initialize_with_v1 :data
+  initialize_with_args :data
   is_callable
 
   def call
