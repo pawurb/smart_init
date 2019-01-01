@@ -3,7 +3,7 @@ require_relative '../lib/smart_init/main'
 
 class TestClass
   extend SmartInit
-  initialize_with :attribute_1, :attribute_2
+  initialize_with_v1 :attribute_1, :attribute_2
   is_callable
 
   def call

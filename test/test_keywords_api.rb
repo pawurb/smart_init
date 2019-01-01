@@ -3,7 +3,7 @@ require_relative '../lib/smart_init/main'
 
 class TestKeywords
   extend SmartInit
-  initialize_with_keywords :attribute_1, :attribute_2
+  initialize_with :attribute_1, :attribute_2
   is_callable
 
   def call
@@ -13,7 +13,7 @@ end
 
 class TestKeywordsDefaults
   extend SmartInit
-  initialize_with_keywords :attribute_1, attribute_2: "default_value_2", attribute_3: "default_value_3"
+  initialize_with :attribute_1, attribute_2: "default_value_2", attribute_3: "default_value_3"
   is_callable
 
   def call
@@ -23,7 +23,7 @@ end
 
 class TestKeywordsIntegerDefaults
   extend SmartInit
-  initialize_with_keywords :attribute_1, attribute_2: 2
+  initialize_with :attribute_1, attribute_2: 2
   is_callable
 
   def call

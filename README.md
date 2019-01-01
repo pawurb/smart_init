@@ -21,7 +21,7 @@ In your Gemfile
 gem 'smart_init'
 ```
 
-## Keyword arguments API
+## API
 
 You can use it either by extending a module:
 
@@ -29,7 +29,7 @@ You can use it either by extending a module:
 class ApiClient
   extend SmartInit
 
-  initialize_with_keywords :network_provider, :api_token
+  initialize_with :network_provider, :api_token
 end
 
 ```
@@ -38,7 +38,7 @@ or subclassing:
 
 ```ruby
 class ApiClient < SmartInit::Base
-  initialize_with_keywords :network_provider, :api_token
+  initialize_with :network_provider, :api_token
 end
 
 ```
@@ -52,48 +52,6 @@ object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 
 You can also use `is_callable` method:
 
-
-```ruby
-class Calculator < SmartInit::Base
-  initialize_with_keywords :data
-  is_callable
-
-  def call
-    ...
-    result
-  end
-end
-
-Calculator.call(data: data) => result
-```
-
-### Default arguments (Beta)
-
-You can use keyword based, default argument values:
-
-```ruby
-class Adder < SmartInit::Base
-  initialize_with_keywords :num_a, num_b: '2'
-  is_callable
-
-  def call
-    num_a + num_b
-  end
-end
-
-Adder.call(num_a: '2') => '22'
-Adder.call(num_a: '2', num_b: '3') => '23'
-
-```
-
-**Warning** currently only string values work as default arguments. There's a failing spec describing this case.
-
-There *might* be danger of code injection because it uses `eval` and string based `class_eval` behind the scenes. I added it as a proof of concept. PRs on how it could improved are welcome.
-
-## Legacy API
-
-Alternatively you can use standard API without keyword arguments:
-
 ```ruby
 class Calculator < SmartInit::Base
   initialize_with :data
@@ -105,8 +63,42 @@ class Calculator < SmartInit::Base
   end
 end
 
-Calculator.call(data) => result
+Calculator.call(data: data) => result
 ```
 
-It does not support default argument values though.
+### Default arguments
 
+You can use hash based, default argument values:
+
+```ruby
+class Adder < SmartInit::Base
+  initialize_with :num_a, num_b: 2
+  is_callable
+
+  def call
+    num_a + num_b
+  end
+end
+
+Adder.call(num_a: 2) => 4
+Adder.call(num_a: 2, num_b: 3) => 5
+
+```
+
+## Legacy API
+
+Alternatively you can a legacy API without hash arguments and default values:
+
+```ruby
+class Calculator < SmartInit::Base
+  initialize_with_v1 :data
+  is_callable
+
+  def call
+    ...
+    result
+  end
+end
+
+Calculator.call(data) => result
+```
