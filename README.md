@@ -7,6 +7,10 @@ def initialize(network_provider, api_token)
   @network_provider = network_provider
   @api_token = api_token
 end
+
+def self.call(network_provider, api_token)
+  new(network_provider, api_token).call
+end
 ```
 
 Gem provides a simple DSL for getting rid of it. It offers an alternative to using `Struct.new` which does not check for number of parameters provided in initializer, exposes getters and instantiates unecessary class instances.
