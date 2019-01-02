@@ -15,7 +15,7 @@ end
 
 Gem provides a simple DSL for getting rid of it. It offers an alternative to using `Struct.new` which does not check for number of parameters provided in initializer, exposes getters and instantiates unecessary class instances.
 
-**Smart Init** offers a unified api for stateless service objects, accepting values in initializer and exposing one public class method `call` which instantiates new objects and accepts arguments passed to initializer.
+**Smart Init** offers a unified API convention for stateless service objects, accepting values in initializer and exposing one public class method `call` which instantiates new objects and accepts arguments passed to initializer.
 
 Check out [this blog post](https://pawelurbanek.com/2018/02/12/ruby-on-rails-service-objects-and-testing-in-isolation/) for my reasoning behind this approach to service object pattern.
 
@@ -116,7 +116,7 @@ Adder.call(num_a: 2, num_b: 3) => 5
 
 ## Legacy Arguments API
 
-Alternatively you can a legacy API without hash arguments and default values:
+Alternatively you can use a legacy API without hash arguments and default values:
 
 ```ruby
 class Calculator < SmartInit::Base
