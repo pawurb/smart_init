@@ -17,6 +17,8 @@ Gem provides a simple DSL for getting rid of it. It offers an alternative to usi
 
 **Smart Init** offers a unified api for stateless service objects, accepting values in initializer and exposing one public class method `call` which instantiates new objects and accepts arguments passed to initializer.
 
+Check out [this blog post](https://pawelurbanek.com/2018/02/12/ruby-on-rails-service-objects-and-testing-in-isolation/) for my reasoning behind this approach to service object pattern.
+
 ## Installation
 
 In your Gemfile
