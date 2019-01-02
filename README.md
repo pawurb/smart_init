@@ -80,6 +80,21 @@ end
 Calculator.call(data: data) => result
 ```
 
+Optionally you can customize a callable method name:
+
+```ruby
+class Routine < SmartInit::Base
+  initialize_with :params
+  is_callable method_name: :run!
+
+  def run!
+    ...
+  end
+end
+
+Routine.run!(params: params)
+```
+
 ### Default arguments
 
 You can use hash based, default argument values:

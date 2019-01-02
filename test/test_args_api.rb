@@ -20,6 +20,16 @@ class TestNoInit
   end
 end
 
+class TestMethodName
+  extend SmartInit
+
+  is_callable method_name: :run!
+
+  def run!
+    true
+  end
+end
+
 def test_object
   @_test_object ||= TestClass.new("attr_1_value", "attr_2_value")
 end
@@ -58,5 +68,9 @@ class StandardApiTest < Test::Unit::TestCase
 
   def test_is_callable_no_initializers
     assert_equal TestNoInit.call, 'result'
+  end
+
+  def test_is_callable_method_name
+    assert_equal TestMethodName.run!, true
   end
 end

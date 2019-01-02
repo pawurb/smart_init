@@ -1,7 +1,13 @@
 module SmartInit
-  def is_callable
-    define_singleton_method :call do |*parameters|
-      new(*parameters).call
+  def is_callable(opts={})
+    method_name = if name_from_opts = opts[:method_name]
+      name_from_opts.to_sym
+    else
+      :call
+    end
+
+    define_singleton_method method_name do |*parameters|
+      new(*parameters).public_send(method_name)
     end
   end
 
