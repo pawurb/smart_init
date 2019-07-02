@@ -64,6 +64,15 @@ object = ApiClient.new(network_provider: Faraday.new)
 # ArgumentError (missing required attribute api_token)
 ```
 
+Contrary to using Struct, reader methods are not publicly exposed:
+
+```ruby
+object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+object.api_token
+
+# NoMethodError (private method `api_token' called for #<ApiClient:0x00007fe911876a48>)
+```
+
 You can also use `is_callable` method:
 
 ```ruby
