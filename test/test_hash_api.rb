@@ -21,6 +21,16 @@ class TestServiceDefaults
   end
 end
 
+class TestServiceAllDefaults
+  extend SmartInit
+  initialize_with attribute_1: "default_value_1", attribute_2: "default_value_2", attribute_3: "default_value_3"
+  is_callable
+
+  def call
+    [attribute_1, attribute_2, attribute_3]
+  end
+end
+
 class TestHashIntegerDefaults
   extend SmartInit
   initialize_with :attribute_1, attribute_2: 2
@@ -61,5 +71,9 @@ class HashApiTest < Test::Unit::TestCase
     assert_raise ArgumentError do
       TestService.call("invalid_input here")
     end
+  end
+
+  def test_all_defaults
+    assert_equal TestServiceAllDefaults.call, ["default_value_1", "default_value_2", "default_value_3"]
   end
 end

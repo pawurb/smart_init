@@ -16,6 +16,7 @@ module SmartInit
     default_value_attrs = attributes.select { |attr| attr.is_a?(Hash) }.first || {}
 
     define_method :initialize do |*parameters|
+      parameters = [{}] if parameters == []
       unless parameters.first.is_a?(Hash)
         raise ArgumentError, "invalid input, expected hash of attributes"
       end
