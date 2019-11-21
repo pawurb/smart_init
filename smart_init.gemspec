@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{ A smart DSL for ruby initializers boilerplate }
   gem.homepage      = "http://github.com/pawurb/smart_init"
   gem.files         = `git ls-files`.split("\n")
-  gem.test_files    = gem.files.grep(%r{^(spec)/})
+  gem.test_files    = gem.files.grep(%r{^(test)/})
   gem.require_paths = ["lib"]
   gem.license       = "MIT"
   gem.add_development_dependency "rake"
