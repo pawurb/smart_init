@@ -28,7 +28,12 @@ module SmartInit
       end
 
       (required_attrs + default_value_attrs.keys).each do |attribute|
-        value = parameters.first[attribute] || default_value_attrs[attribute]
+        value = if parameters.first.has_key?(attribute)
+          parameters.first.fetch(attribute)
+        else
+          default_value_attrs[attribute]
+        end
+
         instance_variable_set("@#{attribute}", value)
       end
     end

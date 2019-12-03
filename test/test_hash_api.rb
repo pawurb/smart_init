@@ -76,4 +76,8 @@ class HashApiTest < Test::Unit::TestCase
   def test_all_defaults
     assert_equal TestServiceAllDefaults.call, ["default_value_1", "default_value_2", "default_value_3"]
   end
+
+  def test_falsey_values
+    assert_equal TestService.call(attribute_1: false, attribute_2: nil), [false, nil]
+  end
 end
