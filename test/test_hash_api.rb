@@ -57,6 +57,13 @@ class HashApiTest < Test::Unit::TestCase
     assert_equal TestServiceDefaults.call(attribute_1: "a", attribute_2: "b"), ["a", "b", "default_value_3"]
   end
 
+  def test_private_readers
+    service = TestServiceDefaults.call(attribute_1: "a")
+    assert_raise NoMethodError do
+      service.attribute_1
+    end
+  end
+
   def test_integer_defaults
     assert_equal TestHashIntegerDefaults.call(attribute_1: 1), [1, 2]
   end

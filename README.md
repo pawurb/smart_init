@@ -59,19 +59,44 @@ object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 If you omit a required attribute an `ArgumentError` will be thrown:
 
 ```ruby
-object = ApiClient.new(network_provider: Faraday.new)
+client = ApiClient.new(network_provider: Faraday.new)
 
 # ArgumentError (missing required attribute api_token)
 ```
 
-Contrary to using Struct, reader methods are not publicly exposed:
+### Readers access
+
+Contrary to using Struct, by default the reader methods are not publicly exposed:
 
 ```ruby
-object = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
-object.api_token
+client = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client.api_token => # NoMethodError (private method `api_token' called for #<ApiClient:0x000..>)
 
-# NoMethodError (private method `api_token' called for #<ApiClient:0x00007fe911876a48>)
 ```
+
+Optionally you can make all or subset of readers public using the `public_readers` config option. It accepts `true` or an array of method names as an argument.
+
+```ruby
+class PublicApiClient < SmartInit::Base
+  initialize_with :network_provider, :api_token, public_readers: true
+end
+
+client = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client.network_provider => #<Faraday::Connection:0x000...>
+client.api_token => 'secret_token'
+```
+
+```ruby
+class SemiPublicApiClient < SmartInit::Base
+  initialize_with :network_provider, :api_token, public_readers: [:network_provider]
+end
+
+client = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client.network_provider => #<Faraday::Connection:0x000...>
+client.api_token => 'secret_token' => # NoMethodError (private method `api_token' called for #<ApiClient:0x000...>)
+```
+
+### Making the object callable
 
 You can also use `is_callable` method:
 

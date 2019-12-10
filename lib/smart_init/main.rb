@@ -12,7 +12,13 @@ module SmartInit
   end
 
   def initialize_with_hash *attributes
+    public_readers_filter = -> (el) {
+      el.is_a?(Hash) && el.keys == [:public_readers]
+    }
+    public_readers = attributes.select(&public_readers_filter)
+    attributes.delete_if(&public_readers_filter)
     required_attrs = attributes.select { |attr| attr.is_a?(Symbol) }
+
     default_value_attrs = attributes.select { |attr| attr.is_a?(Hash) }.first || {}
 
     define_method :initialize do |*parameters|
@@ -20,6 +26,7 @@ module SmartInit
       unless parameters.first.is_a?(Hash)
         raise ArgumentError, "invalid input, expected hash of attributes"
       end
+
 
       required_attrs.each do |required_attr|
         unless parameters.first.has_key?(required_attr)
@@ -39,9 +46,18 @@ module SmartInit
     end
 
     instance_eval do
-      private
+      all_readers = (required_attrs + default_value_attrs.keys).compact
+      attr_reader(*all_readers)
 
-      attr_reader(*(required_attrs + default_value_attrs.keys).compact)
+      if public_readers.count == 0
+        all_readers.each do |method_name|
+          private method_name
+        end
+      elsif public_readers.first.fetch(:public_readers).is_a?(Array)
+        (all_readers - public_readers.first.fetch(:public_readers)).each do |method_name|
+          private method_name
+        end
+      end
     end
   end
 
