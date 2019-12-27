@@ -37,7 +37,6 @@ class ApiClient
 
   initialize_with :network_provider, :api_token
 end
-
 ```
 
 or subclassing:
@@ -46,7 +45,6 @@ or subclassing:
 class ApiClient < SmartInit::Base
   initialize_with :network_provider, :api_token
 end
-
 ```
 
 Now you can just:
@@ -113,7 +111,6 @@ end
 
 Adder.call(num_a: 2) => 4
 Adder.call(num_a: 2, num_b: 3) => 5
-
 ```
 
 ### Readers access
@@ -123,7 +120,6 @@ Contrary to using Struct, by default the reader methods are not publicly exposed
 ```ruby
 client = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 client.api_token => # NoMethodError (private method `api_token' called for #<ApiClient:0x000..>)
-
 ```
 
 Optionally you can make all or subset of readers public using the `public_readers` config option. It accepts `true` or an array of method names as an argument.
