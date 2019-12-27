@@ -55,9 +55,10 @@ class StandardApiTest < Test::Unit::TestCase
   end
 
   def test_private_getters
-    assert_raise NoMethodError do
+    error = assert_raise NoMethodError do
       test_object.attribute_1
     end
+    assert_match("private method", error.message)
 
     assert_equal test_object.send(:attribute_1), "attr_1_value"
   end

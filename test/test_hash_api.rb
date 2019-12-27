@@ -58,10 +58,12 @@ class HashApiTest < Test::Unit::TestCase
   end
 
   def test_private_readers
-    service = TestServiceDefaults.call(attribute_1: "a")
-    assert_raise NoMethodError do
-      service.attribute_1
+    service = TestServiceDefaults.new(attribute_1: "a")
+    error = assert_raise NoMethodError do
+      service.attribute_2
     end
+
+    assert_match("private method", error.message)
   end
 
   def test_integer_defaults
