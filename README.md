@@ -129,7 +129,7 @@ class PublicApiClient < SmartInit::Base
   initialize_with :network_provider, :api_token, public_readers: true
 end
 
-client = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client = PublicApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 client.network_provider => #<Faraday::Connection:0x000...>
 client.api_token => 'secret_token'
 ```
@@ -139,7 +139,7 @@ class SemiPublicApiClient < SmartInit::Base
   initialize_with :network_provider, :api_token, public_readers: [:network_provider]
 end
 
-client = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client = SemiPublicApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 client.network_provider => #<Faraday::Connection:0x000...>
 client.api_token => 'secret_token' => # NoMethodError (private method `api_token' called for #<ApiClient:0x000...>)
 ```
