@@ -15,11 +15,19 @@ module SmartInit
     public_readers_filter = -> (el) {
       el.is_a?(Hash) && el.keys == [:public_readers]
     }
+    attributes = attributes.map do |el|
+      if el.is_a?(Hash)
+        el.map { |k, v| { k => v } }
+      else
+        el
+      end
+    end.flatten
+
     public_readers = attributes.select(&public_readers_filter)
     attributes.delete_if(&public_readers_filter)
     required_attrs = attributes.select { |el| el.is_a?(Symbol) }
 
-    default_value_attrs = attributes.select { |el| el.is_a?(Hash) }.first || {}
+    default_value_attrs = attributes.select { |el| el.is_a?(Hash) }.reduce(Hash.new, :merge) || {}
 
     define_method :initialize do |*parameters|
       parameters = [{}] if parameters == []
