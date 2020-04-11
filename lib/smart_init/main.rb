@@ -11,10 +11,10 @@ module SmartInit
     end
   end
 
-  def initialize_with_hash(*required_attrs, **hash)
+  def initialize_with_hash(*required_attrs, **attributes_and_options)
 
-    public_readers = hash.delete(:public_readers) || []
-    public_accessors = hash.delete(:public_accessors) || []
+    public_readers = attributes_and_options.delete(:public_readers) || []
+    public_accessors = attributes_and_options.delete(:public_accessors) || []
     if  public_readers == true || public_accessors == true
       public_readers = required_attrs
       public_accessors = required_attrs if public_accessors == true
@@ -22,8 +22,7 @@ module SmartInit
       public_readers += public_accessors
     end
 
-    define_method :initialize do |*parameters|
-      parameters == [] ? parameters = {} : parameters = parameters.first
+    define_method :initialize do |**parameters|
       unless parameters.is_a?(Hash)
         raise ArgumentError, "invalid input, expected hash of attributes"
       end
@@ -33,11 +32,11 @@ module SmartInit
           raise ArgumentError, "missing required attribute #{required_attr}"
         end
       end
-      (required_attrs + hash.keys).each do |attribute|
+      (required_attrs + attributes_and_options.keys).each do |attribute|
         value = if parameters.has_key?(attribute)
           parameters.fetch(attribute)
         else
-          hash[attribute]
+          attributes_and_options[attribute]
         end
 
         instance_variable_set("@#{attribute}", value)
@@ -45,7 +44,7 @@ module SmartInit
     end
 
     instance_eval do
-      all_readers = (required_attrs + hash.keys)
+      all_readers = (required_attrs + attributes_and_options.keys)
       attr_reader(*all_readers)
       (all_readers - public_readers).each do |reader|
         private reader

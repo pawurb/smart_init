@@ -1,6 +1,6 @@
 # Smart Init [![Build Status](https://travis-ci.org/pawurb/smart_init.svg)](https://travis-ci.org/pawurb/smart_init) [![Gem Version](https://badge.fury.io/rb/smart_init.svg)](https://badge.fury.io/rb/smart_init)
 
-Do you find yourself writing a lot of boilerplate code like that?
+Do you find yourself writing a lot of boilerplate code like this?
 
 ```ruby
 def initialize(network_provider, api_token)
@@ -13,7 +13,7 @@ def self.call(network_provider, api_token)
 end
 ```
 
-Gem provides a simple DSL for getting rid of it. It offers an alternative to using `Struct.new` which does not check for number of parameters provided in initializer, exposes getters and instantiates unecessary class instances.
+This gem provides a simple DSL for getting rid of it. It offers an alternative to using `Struct.new` which does not check for number of parameters provided in initializer, exposes getters and instantiates unecessary class instances.
 
 **Smart Init** offers a unified API convention for stateless service objects, accepting values in initializer and exposing one public class method `call` which instantiates new objects and accepts arguments passed to initializer.
 
@@ -141,12 +141,83 @@ end
 
 client = SemiPublicApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
 client.network_provider => #<Faraday::Connection:0x000...>
-client.api_token => 'secret_token' => # NoMethodError (private method `api_token' called for #<ApiClient:0x000...>)
+client.api_token => 'secret_token' => # NoMethodError (private method `api_token' called for #<SemiPublicApiClient:0x000...>)
+```
+
+### Accessors access
+
+Similarly, this is how it would look if you tried to use a writer method:
+
+```ruby
+client = ApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client.api_token = 'new_token' => # NoMethodError (private method `api_token=' called for #<ApiClient:0x000..>)
+```
+
+Optionally you can make all or subset of accessors public using the `public_accessors` config option. It accepts `true` or an array of method names as an argument. This will provide both reader and writer methods publicly.
+
+```ruby
+class PublicApiClient < SmartInit::Base
+  initialize_with :network_provider, :api_token, public_accessors: true
+end
+
+client = PublicApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client.network_provider => #<Faraday::Connection:0x000...>
+client.network_provider = Typhoeus::Request.new(...) => #<Typhoeus::Request:0x000...>
+client.api_token => 'secret_token'
+client.api_token = 'new_token' => 'new_token'
+```
+
+```ruby
+class SemiPublicApiClient < SmartInit::Base
+  initialize_with :network_provider, :api_token, public_accessors: [:network_provider]
+end
+
+client = SemiPublicApiClient.new(network_provider: Faraday.new, api_token: 'secret_token')
+client.network_provider => #<Faraday::Connection:0x000...>
+client.network_provider = Typhoeus::Request.new(...) => #<Typhoeus::Request:0x000...>
+client.api_token => # NoMethodError (private method `api_token' called for #<SemiPublicApiClient:0x000...>)
+client.api_token = 'new_token' => # NoMethodError (undefined method `api_token=' called for #<SemiPublicApiClient:0x000...>)
+```
+
+Finally, you can mix them together like this:
+
+```ruby
+class PublicReadersSemiPublicAccessorsApiClient < SmartInit::Base
+  initialize_with :network_provider, :api_token, :timeout,
+                  public_readers: true, public_accessors: [:network_provider]
+end
+
+client = PublicReadersSemiPublicAccessorsApiClient.new(
+           network_provider: Faraday.new, api_token: 'secret_token', timeout_length: 100
+         )
+client.network_provider => #<Faraday::Connection:0x000...>
+client.network_provider = Typhoeus::Request.new(...) => #<Typhoeus::Request:0x000...>
+client.api_token => 'secret_token'
+client.api_token = 'new_token' => # NoMethodError (undefined method `api_token=' called for #<SemiPublicApiClient:0x000...>)
+client.timeout_length => 100
+client.timeout_length = 150 => # NoMethodError (undefined method `timeout_length=' called for #<SemiPublicApiClient:0x000...>)
+```
+
+```ruby
+class SemiPublicReadersSemiPublicAccessorsApiClient < SmartInit::Base
+  initialize_with :network_provider, :api_token, :timeout,
+                  public_readers: [:timeout], public_accessors: [:network_provider]
+end
+
+client = SemiPublicReadersSemiPublicAccessorsApiClient.new(
+           network_provider: Faraday.new, api_token: 'secret_token', timeout_length: 100
+         )
+client.network_provider => #<Faraday::Connection:0x000...>
+client.network_provider = Typhoeus::Request.new(...) => #<Typhoeus::Request:0x000...>
+client.api_token => # NoMethodError (private method `api_token' called for #<SemiPublicReadersSemiPublicAccessorsApiClient:0x000...>)
+client.api_token = 'new_token' => # NoMethodError (undefined method `api_token=' called for #<SemiPublicReadersSemiPublicAccessorsApiClient:0x000...>)
+client.timeout_length => 100
+client.timeout_length = 150 => # NoMethodError (undefined method `timeout_length=' called for #<SemiPublicReadersSemiPublicAccessorsApiClient:0x000...>)
 ```
 
 ## Arguments API
 
-Alternatively you can use an API without hash arguments,  default values and public readers support:
+Alternatively you can use an API without hash arguments, default values, public readers, or public accessors support:
 
 ```ruby
 class Calculator < SmartInit::Base
