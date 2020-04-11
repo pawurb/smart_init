@@ -23,10 +23,6 @@ module SmartInit
     end
 
     define_method :initialize do |**parameters|
-      unless parameters.is_a?(Hash)
-        raise ArgumentError, "invalid input, expected hash of attributes"
-      end
-
       required_attrs.each do |required_attr|
         unless parameters.has_key?(required_attr)
           raise ArgumentError, "missing required attribute #{required_attr}"
