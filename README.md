@@ -1,4 +1,4 @@
-# Smart Init [![Build Status](https://travis-ci.org/pawurb/smart_init.svg)](https://travis-ci.org/pawurb/smart_init) [![Gem Version](https://badge.fury.io/rb/smart_init.svg)](https://badge.fury.io/rb/smart_init)
+# Smart Init - Simple service objects in Ruby [![Build Status](https://travis-ci.org/pawurb/smart_init.svg)](https://travis-ci.org/pawurb/smart_init) [![Gem Version](https://badge.fury.io/rb/smart_init.svg)](https://badge.fury.io/rb/smart_init)
 
 Do you find yourself writing a lot of boilerplate code like this?
 
