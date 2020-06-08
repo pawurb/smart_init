@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SmartInit
   def is_callable(opts={})
     method_name = if name_from_opts = opts[:method_name]
