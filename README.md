@@ -32,6 +32,8 @@ gem 'smart_init'
 You can use it either by extending a module:
 
 ```ruby
+require 'smart_init'
+
 class ApiClient
   extend SmartInit
 
