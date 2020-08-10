@@ -8,13 +8,12 @@ module SmartInit
       :call
     end
 
-    define_singleton_method method_name do |*parameters|
-      new(*parameters).public_send(method_name)
+    define_singleton_method method_name do |**parameters|
+      new(**parameters).public_send(method_name)
     end
   end
 
   def initialize_with_hash(*required_attrs, **attributes_and_options)
-
     public_readers = attributes_and_options.delete(:public_readers) || []
     public_accessors = attributes_and_options.delete(:public_accessors) || []
     if  public_readers == true || public_accessors == true
@@ -52,28 +51,6 @@ module SmartInit
   end
 
   alias initialize_with initialize_with_hash
-
-  def initialize_with_args *attributes
-    define_method :initialize do |*parameters|
-      if attributes.count != parameters.count
-        raise ArgumentError, "wrong number of arguments (given #{parameters.count}, expected #{attributes.count})"
-      end
-
-      attributes.zip(parameters).each do |pair|
-        name = pair[0]
-        value = pair[1]
-        instance_variable_set("@#{name}", value)
-      end
-    end
-
-    instance_eval do
-      attr_reader(*attributes)
-
-      attributes.each do |method_name|
-        private method_name
-      end
-    end
-  end
 end
 
 class SmartInit::Base
