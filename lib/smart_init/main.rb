@@ -8,13 +8,12 @@ module SmartInit
       :call
     end
 
-    define_singleton_method method_name do |*parameters|
-      new(*parameters).public_send(method_name)
+    define_singleton_method method_name do |**parameters|
+      new(**parameters).public_send(method_name)
     end
   end
 
   def initialize_with_hash(*required_attrs, **attributes_and_options)
-
     public_readers = attributes_and_options.delete(:public_readers) || []
     public_accessors = attributes_and_options.delete(:public_accessors) || []
     if  public_readers == true || public_accessors == true

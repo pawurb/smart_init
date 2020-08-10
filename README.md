@@ -216,21 +216,3 @@ client.api_token = 'new_token' => # NoMethodError (undefined method `api_token='
 client.timeout_length => 100
 client.timeout_length = 150 => # NoMethodError (undefined method `timeout_length=' called for #<SemiPublicReadersSemiPublicAccessorsApiClient:0x000...>)
 ```
-
-## Arguments API
-
-Alternatively you can use an API without hash arguments, default values, public readers, or public accessors support:
-
-```ruby
-class Calculator < SmartInit::Base
-  initialize_with_args :data
-  is_callable
-
-  def call
-    ...
-    result
-  end
-end
-
-Calculator.call(data) => result
-```
