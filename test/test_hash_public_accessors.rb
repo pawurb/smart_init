@@ -4,7 +4,7 @@ require "byebug"
 require "test/unit"
 require_relative '../lib/smart_init/main'
 
-class TestAllPublic
+class TestAllPublicAccessors
   extend SmartInit
   initialize_with :attribute_1, :attribute_2, public_accessors: true
   is_callable
@@ -14,7 +14,7 @@ class TestAllPublic
   end
 end
 
-class TestSomePublic
+class TestSomePublicAccessors
   extend SmartInit
   initialize_with :attribute_1, :attribute_2, public_accessors: [:attribute_1]
   is_callable
@@ -24,7 +24,7 @@ class TestSomePublic
   end
 end
 
-class TestDefaultPublic
+class TestDefaultPublicAccessors
   extend SmartInit
   initialize_with :attribute_1, attribute_2: 2, public_accessors: [:attribute_2]
 
@@ -33,9 +33,9 @@ class TestDefaultPublic
   end
 end
 
-class HashApiPublicTest < Test::Unit::TestCase
+class HashApiPublicTestAccessors < Test::Unit::TestCase
   def test_all_public
-    service = TestAllPublic.new(attribute_1: "a", attribute_2: "b")
+    service = TestAllPublicAccessors.new(attribute_1: "a", attribute_2: "b")
     assert_nothing_raised do
       service.attribute_1 = "c"
       service.attribute_2 = "d"
@@ -45,7 +45,7 @@ class HashApiPublicTest < Test::Unit::TestCase
   end
 
   def test_some_public
-    service = TestSomePublic.new(attribute_1: "a", attribute_2: "b")
+    service = TestSomePublicAccessors.new(attribute_1: "a", attribute_2: "b")
     assert_nothing_raised do
       service.attribute_1 = "c"
     end
@@ -59,7 +59,7 @@ class HashApiPublicTest < Test::Unit::TestCase
   end
 
   def test_default_public
-    service = TestDefaultPublic.new(attribute_1: "a")
+    service = TestDefaultPublicAccessors.new(attribute_1: "a")
     assert_nothing_raised do
       service.attribute_2 = 3
     end
