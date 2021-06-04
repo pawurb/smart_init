@@ -17,8 +17,8 @@ module SmartInit
     public_readers = attributes_and_options.delete(:public_readers) || []
     public_accessors = attributes_and_options.delete(:public_accessors) || []
     if  public_readers == true || public_accessors == true
-      public_readers = required_attrs
-      public_accessors = required_attrs if public_accessors == true
+      public_readers = required_attrs + attributes_and_options.keys
+      public_accessors = required_attrs + attributes_and_options.keys if public_accessors == true
     else
       public_readers += public_accessors
     end
