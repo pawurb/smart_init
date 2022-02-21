@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "byebug"
 require "test/unit"
 require_relative '../lib/smart_init/main'
 

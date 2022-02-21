@@ -1,7 +1,0 @@
-rvm:
-  - 2.6.5
-  - 2.7.5
-  - 3.1.0
-notifications:
-  email: false
-
