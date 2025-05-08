@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test/unit"
-require_relative '../lib/smart_init/main'
+require_relative "../lib/smart_init/main"
 
 class TestSomePublicMixed
   extend SmartInit
@@ -25,12 +25,11 @@ class TestAllReadersSomeAccessorsPublic
 end
 
 class HashApiPublicTest < Test::Unit::TestCase
-
   def test_readers_some_public_mixed
     service = TestSomePublicMixed.new(
-                attribute_1: "a", attribute_2: "b",
-                attribute_3: "c", attribute_4: "d"
-              )
+      attribute_1: "a", attribute_2: "b",
+      attribute_3: "c", attribute_4: "d",
+    )
     assert_nothing_raised do
       service.attribute_1
       service.attribute_2
@@ -43,9 +42,9 @@ class HashApiPublicTest < Test::Unit::TestCase
 
   def test_writers_some_public_mixed
     service = TestSomePublicMixed.new(
-                attribute_1: "a", attribute_2: "b",
-                attribute_3: "c", attribute_4: "d"
-              )
+      attribute_1: "a", attribute_2: "b",
+      attribute_3: "c", attribute_4: "d",
+    )
     assert_nothing_raised do
       service.attribute_2 = "e"
       service.attribute_3 = "f"
@@ -59,8 +58,8 @@ class HashApiPublicTest < Test::Unit::TestCase
 
   def test_readers_all_readers_some_accessors_public
     service = TestAllReadersSomeAccessorsPublic.new(
-                attribute_1: "a", attribute_2: "b"
-              )
+      attribute_1: "a", attribute_2: "b",
+    )
     assert_nothing_raised do
       service.attribute_1
       service.attribute_2
@@ -69,8 +68,8 @@ class HashApiPublicTest < Test::Unit::TestCase
 
   def test_writers_all_readers_some_accessors_public
     service = TestAllReadersSomeAccessorsPublic.new(
-                attribute_1: "a", attribute_2: "b"
-              )
+      attribute_1: "a", attribute_2: "b",
+    )
     assert_raise NoMethodError do
       service.attribute_1 = "c"
     end

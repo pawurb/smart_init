@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test/unit"
-require_relative '../lib/smart_init/main'
+require_relative "../lib/smart_init/main"
 
 class TestService
   extend SmartInit
@@ -49,7 +49,7 @@ class HashApiTest < Test::Unit::TestCase
 
     assert_raise ArgumentError do
       TestService.new(
-        attribute_1: "a"
+        attribute_1: "a",
       )
     end
   end
@@ -90,5 +90,11 @@ class HashApiTest < Test::Unit::TestCase
 
   def test_falsey_values
     assert_equal TestService.call(attribute_1: false, attribute_2: nil), [false, nil]
+  end
+
+  def test_invalid_keywords
+    assert_raise ArgumentError do
+      TestService.call(attribute_1: "a", attribute_2: "b", invalid_attribute: "c")
+    end
   end
 end

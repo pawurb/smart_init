@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'smart_init/main'
+require "smart_init/main"
 
 module SmartInit
 end

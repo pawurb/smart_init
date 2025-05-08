@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
 module SmartInit
-  def is_callable(opts={})
+  def is_callable(opts = {})
     method_name = if name_from_opts = opts[:method_name]
-      name_from_opts.to_sym
-    else
-      :call
-    end
+        name_from_opts.to_sym
+      else
+        :call
+      end
 
     define_singleton_method method_name do |**parameters|
       new(**parameters).public_send(method_name)
     end
   end
 
-  def initialize_with_hash(*required_attrs, **attributes_and_options)
-    public_readers = attributes_and_options.delete(:public_readers) || []
-    public_accessors = attributes_and_options.delete(:public_accessors) || []
-    if  public_readers == true || public_accessors == true
-      public_readers = required_attrs + attributes_and_options.keys
-      public_accessors = required_attrs + attributes_and_options.keys if public_accessors == true
+  def initialize_with_hash(*required_attrs, **default_values_and_opts)
+    public_readers = default_values_and_opts.delete(:public_readers) || []
+    public_accessors = default_values_and_opts.delete(:public_accessors) || []
+    if public_readers == true || public_accessors == true
+      public_readers = required_attrs + default_values_and_opts.keys
+      public_accessors = required_attrs + default_values_and_opts.keys if public_accessors == true
     else
       public_readers += public_accessors
     end
@@ -29,19 +29,26 @@ module SmartInit
           raise ArgumentError, "missing required attribute #{required_attr}"
         end
       end
-      (required_attrs + attributes_and_options.keys).each do |attribute|
-        value = if parameters.has_key?(attribute)
-          parameters.fetch(attribute)
-        else
-          attributes_and_options[attribute]
+
+      parameters.keys.each do |param|
+        if !(required_attrs + [:public_readers, :public_accessors]).include?(param) && !default_values_and_opts.keys.include?(param)
+          raise ArgumentError, "invalid attribute '#{param}'"
         end
+      end
+
+      (required_attrs + default_values_and_opts.keys).each do |attribute|
+        value = if parameters.has_key?(attribute)
+            parameters.fetch(attribute)
+          else
+            default_values_and_opts[attribute]
+          end
 
         instance_variable_set("@#{attribute}", value)
       end
     end
 
     instance_eval do
-      all_readers = (required_attrs + attributes_and_options.keys)
+      all_readers = (required_attrs + default_values_and_opts.keys)
       attr_reader(*all_readers)
       (all_readers - public_readers).each do |reader|
         private reader

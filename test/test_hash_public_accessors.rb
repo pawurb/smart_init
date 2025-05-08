@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test/unit"
-require_relative '../lib/smart_init/main'
+require_relative "../lib/smart_init/main"
 
 class TestAllPublicAccessors
   extend SmartInit
